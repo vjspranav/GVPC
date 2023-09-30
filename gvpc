@@ -1,0 +1,46 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+import argparse
+
+# add file name as arg
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('file', metavar='file', type=str, nargs='+',
+                    help='file name')
+# -o or --output
+parser.add_argument('-o', '--output', metavar='output', type=str, nargs='+',
+                    default='a.out', help='output file name')
+
+args = parser.parse_args()
+
+# get file name
+file = args.file[0]
+
+
+def parse_input(input_data):
+    # add default header file
+    c_code = "#include \"gvpcheader.h\"\n\n"
+    c_code += input_data
+
+    # run through multiple compiler passes
+
+    return c_code
+
+# read entire file into memory
+with open(file, 'r') as f:
+    input_data = f.read()
+
+# parse input data into C code
+c_code = parse_input(input_data)
+
+# write C code to temp file
+with open('temp.c', 'w') as f:
+    f.write(c_code)
+
+# compile temp file with gcc including ./ include path
+os.system("gcc temp.c -o " + args.output + " -I ./ " )
+
+# remove temp file
+os.system("rm temp.c")

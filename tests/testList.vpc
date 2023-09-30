@@ -1,0 +1,8 @@
+#include<stdio.h>
+
+int main(){
+    list x = [1, 2, 3, 4, 5];
+    // x.append(1);
+    // print(x);
+    print_hello();
+}
